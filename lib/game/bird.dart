@@ -2,11 +2,12 @@ import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:flutter/material.dart';
 import 'package:flappy_flame/game/flappy_game.dart';
+import 'package:flappy_flame/workshop/game_settings.dart';
 
 class Bird extends PositionComponent with HasGameRef<FlappyGame>, CollisionCallbacks {
-  static const double gravity = 1200;
-  static const double jumpVelocity = -400;
-  static const double birdSize = 40;
+  double get gravity => WorkshopSettings.gravity;
+  double get jumpVelocity => WorkshopSettings.jumpStrength;
+  double get birdSize => WorkshopSettings.birdSize;
 
   double velocity = 0;
   bool isAlive = true;
@@ -14,7 +15,7 @@ class Bird extends PositionComponent with HasGameRef<FlappyGame>, CollisionCallb
   @override
   Future<void> onLoad() async {
     size = Vector2.all(birdSize);
-    position = Vector2(100, gameRef.size.y / 2);
+    position = Vector2(WorkshopSettings.birdStartX, gameRef.size.y / 2);
     anchor = Anchor.center;
     add(RectangleHitbox());
   }
@@ -35,13 +36,13 @@ class Bird extends PositionComponent with HasGameRef<FlappyGame>, CollisionCallb
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    final paint = Paint()..color = const Color(0xFFFFD700);
+    final paint = Paint()..color = WorkshopSettings.birdColor;
     canvas.drawCircle(Offset(size.x / 2, size.y / 2), birdSize / 2, paint);
     
-    final eyePaint = Paint()..color = Colors.black;
+    final eyePaint = Paint()..color = WorkshopSettings.birdEyeColor;
     canvas.drawCircle(Offset(size.x / 2 + 8, size.y / 2 - 5), 4, eyePaint);
     
-    final beakPaint = Paint()..color = const Color(0xFFFF8C00);
+    final beakPaint = Paint()..color = WorkshopSettings.birdBeakColor;
     final beakPath = Path()
       ..moveTo(size.x / 2 + 15, size.y / 2)
       ..lineTo(size.x / 2 + 25, size.y / 2 - 3)
@@ -65,7 +66,7 @@ class Bird extends PositionComponent with HasGameRef<FlappyGame>, CollisionCallb
   }
 
   void reset() {
-    position = Vector2(100, gameRef.size.y / 2);
+    position = Vector2(WorkshopSettings.birdStartX, gameRef.size.y / 2);
     velocity = 0;
     isAlive = true;
   }

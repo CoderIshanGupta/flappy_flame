@@ -23,6 +23,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  # Include workshop assets for customization
+  assets:
+    - workshop/assets/
+    - workshop/sounds/
+
 flutter_launcher_icons:
   android: true
   ios: true

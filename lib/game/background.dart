@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flappy_flame/game/flappy_game.dart';
+import 'package:flappy_flame/workshop/game_settings.dart';
 
 class GameBackground extends PositionComponent with HasGameRef<FlappyGame> {
   @override
@@ -17,14 +18,16 @@ class GameBackground extends PositionComponent with HasGameRef<FlappyGame> {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        const Color(0xFF87CEEB),
-        const Color(0xFF4A90E2),
+        WorkshopSettings.skyColorTop,
+        WorkshopSettings.skyColorBottom,
       ],
     );
     final paint = Paint()..shader = gradient.createShader(rect);
     canvas.drawRect(rect, paint);
 
-    final cloudPaint = Paint()..color = Colors.white.withValues(alpha: 0.6);
+    final cloudPaint = Paint()
+      ..color = WorkshopSettings.cloudColor
+          .withValues(alpha: WorkshopSettings.cloudOpacity);
     canvas.drawCircle(const Offset(100, 100), 30, cloudPaint);
     canvas.drawCircle(const Offset(130, 100), 40, cloudPaint);
     canvas.drawCircle(const Offset(160, 100), 30, cloudPaint);

@@ -3,11 +3,12 @@ import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:flutter/material.dart';
 import 'package:flappy_flame/game/flappy_game.dart';
+import 'package:flappy_flame/workshop/game_settings.dart';
 
 class PipePair extends PositionComponent with HasGameRef<FlappyGame> {
-  static const double pipeWidth = 80;
-  static const double gapHeight = 200;
-  static const double scrollSpeed = 200;
+  double get pipeWidth => WorkshopSettings.pipeWidth;
+  double get gapHeight => WorkshopSettings.gapHeight;
+  double get scrollSpeed => WorkshopSettings.pipeSpeed;
   
   bool scored = false;
 
@@ -19,8 +20,8 @@ class PipePair extends PositionComponent with HasGameRef<FlappyGame> {
   Future<void> onLoad() async {
     final random = Random();
     final screenHeight = gameRef.size.y;
-    final minGapY = 150.0;
-    final maxGapY = screenHeight - 150 - gapHeight;
+    final minGapY = WorkshopSettings.minGapDistance;
+    final maxGapY = screenHeight - WorkshopSettings.minGapDistance - gapHeight;
     final gapY = minGapY + random.nextDouble() * (maxGapY - minGapY);
 
     final topPipe = Pipe(
@@ -72,11 +73,11 @@ class Pipe extends PositionComponent with CollisionCallbacks {
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    final bodyPaint = Paint()..color = const Color(0xFF2ECC71);
+    final bodyPaint = Paint()..color = WorkshopSettings.pipeColor;
     canvas.drawRect(Rect.fromLTWH(0, 0, width, height), bodyPaint);
 
     final borderPaint = Paint()
-      ..color = const Color(0xFF27AE60)
+      ..color = WorkshopSettings.pipeBorderColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
     canvas.drawRect(Rect.fromLTWH(0, 0, width, height), borderPaint);
