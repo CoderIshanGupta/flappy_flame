@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flappy_flame/game/flappy_game.dart';
 import 'package:flappy_flame/workshop/game_settings.dart';
 
-class GameBackground extends PositionComponent with HasGameRef<FlappyGame> {
+class GameBackground extends PositionComponent with HasGameReference<FlappyGame> {
   @override
   Future<void> onLoad() async {
-    size = gameRef.size;
+    size = game.size;
     position = Vector2.zero();
   }
 
