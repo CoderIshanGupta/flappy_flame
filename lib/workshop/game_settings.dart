@@ -1,153 +1,157 @@
 import 'package:flutter/material.dart';
+import 'package:flappy_flame/workshop/student_code.dart';
 
-/// 🎮 GAME WORKSHOP SETTINGS
-/// 
-/// This is where you can customize your Flappy Bird game!
-/// Change any number or color below and run the game to see your changes.
-/// 
-/// 💡 TIP: Start with small changes and test them one at a time!
+/// ════════════════════════════════════════════════════════════════
+/// 🎮 GAME SETTINGS
+/// ════════════════════════════════════════════════════════════════
 
 class WorkshopSettings {
+  
+  // ═══════════════════════════════════════════════════════════════
+  // 🎯 CHOOSE MODE
+  // ═══════════════════════════════════════════════════════════════
+  
+  /// Set to TRUE: Use code from student_code.dart
+  /// Set to FALSE: Use settings from this file
+  static const bool useStudentCode = true;
+  
+  
   // ═══════════════════════════════════════════════════════════════
   // 🐦 BIRD SETTINGS
   // ═══════════════════════════════════════════════════════════════
   
-  /// How big is the bird? (in pixels)
-  /// Try: 40, 50, 60
+  static const Color _birdColorFallback = Color(0xFFFFD700);
+  static Color get birdColor => 
+      useStudentCode ? StudentCode.getBirdColor() : _birdColorFallback;
+  
   static const double birdSize = 40;
+  static const double birdStartX = 100;
+  static const Color birdEyeColor = Colors.white;
+  static const Color birdPupilColor = Colors.black;
+  static const Color birdBeakColor = Color(0xFFFF8C00);
+  static Color get birdWingColor => birdColor.withValues(alpha: 0.8);
+  static const Color birdBellyColor = Color(0xFFFFF8DC);
   
-  /// How fast does the bird fall down? (gravity)
-  /// Higher = falls faster | Lower = floats more
-  /// Try: 800, 1200, 1500
-  static const double gravity = 1200;
-  
-  /// How strong is the jump?
-  /// More negative = jumps higher
-  /// Try: -300, -400, -500
-  static const double jumpStrength = -400;
-  
-  /// What color is the bird?
-  /// Try: Colors.red, Colors.blue, Color(0xFFFFD700)
-  static const Color birdColor = Color(0xFFFFD700); // Gold
-  
-  /// Bird eye color
-  static const Color birdEyeColor = Colors.black;
-  
-  /// Bird beak color
-  static const Color birdBeakColor = Color(0xFFFF8C00); // Orange
   
   // ═══════════════════════════════════════════════════════════════
-  // 🚀 PIPE/OBSTACLE SETTINGS
+  // ⚙️ PHYSICS SETTINGS
   // ═══════════════════════════════════════════════════════════════
   
-  /// How wide are the pipes?
-  /// Try: 60, 80, 100
+  static const double _gravityFallback = 1200;
+  static double get gravity =>
+      useStudentCode ? StudentCode.getGravity() : _gravityFallback;
+  
+  static const double _jumpStrengthFallback = -400;
+  static double get jumpStrength =>
+      useStudentCode ? StudentCode.calculateJumpStrength(gravity) : _jumpStrengthFallback;
+  
+  
+  // ═══════════════════════════════════════════════════════════════
+  // 🚧 PIPE SETTINGS
+  // ═══════════════════════════════════════════════════════════════
+  
   static const double pipeWidth = 80;
   
-  /// How big is the gap between top and bottom pipes?
-  /// Bigger = easier | Smaller = harder
-  /// Try: 150, 200, 250
-  static const double gapHeight = 200;
+  static const double _gapHeightFallback = 200;
+  static double get gapHeight =>
+      useStudentCode ? StudentCode.getGapSize() : _gapHeightFallback;
   
-  /// How fast do pipes move?
-  /// Higher = harder game
-  /// Try: 150, 200, 250
-  static const double pipeSpeed = 200;
+  static const double _pipeSpeedFallback = 200;
+  static double get pipeSpeed =>
+      useStudentCode ? StudentCode.getPipeSpeed() : _pipeSpeedFallback;
   
-  /// How often do new pipes appear? (in seconds)
-  /// Lower = more pipes = harder
-  /// Try: 1.5, 2.0, 3.0
   static const double pipeSpawnInterval = 2.0;
-  
-  /// Main pipe color
-  static const Color pipeColor = Color(0xFF2ECC71); // Green
-  
-  /// Pipe border/outline color
-  static const Color pipeBorderColor = Color(0xFF27AE60); // Dark green
-  
-  // ═══════════════════════════════════════════════════════════════
-  // 🌍 GROUND SETTINGS
-  // ═══════════════════════════════════════════════════════════════
-  
-  /// How tall is the ground?
-  /// Try: 80, 100, 120
-  static const double groundHeight = 100;
-  
-  /// Ground dirt color
-  static const Color groundColor = Color(0xFF8B4513); // Brown
-  
-  /// Grass on top of ground
-  static const Color grassColor = Color(0xFF228B22); // Green
-  
-  /// Ground line color (decorative)
-  static const Color groundLineColor = Color(0xFF654321); // Dark brown
-  
-  // ═══════════════════════════════════════════════════════════════
-  // 🌤️ BACKGROUND SETTINGS
-  // ═══════════════════════════════════════════════════════════════
-  
-  /// Sky color (top)
-  static const Color skyColorTop = Color(0xFF87CEEB); // Light blue
-  
-  /// Sky color (bottom)
-  static const Color skyColorBottom = Color(0xFF4A90E2); // Darker blue
-  
-  /// Cloud color and transparency
-  static const Color cloudColor = Colors.white;
-  static const double cloudOpacity = 0.6; // 0.0 = invisible, 1.0 = solid
-  
-  // ═══════════════════════════════════════════════════════════════
-  // 🎵 SOUND SETTINGS (Files to use from workshop/sounds/)
-  // ═══════════════════════════════════════════════════════════════
-  
-  /// Enable or disable sounds
-  static const bool soundEnabled = true;
-  
-  /// Sound file names (put these files in workshop/sounds/ folder)
-  static const String jumpSound = 'jump.mp3';
-  static const String scoreSound = 'score.mp3';
-  static const String gameOverSound = 'game_over.mp3';
-  
-  // ═══════════════════════════════════════════════════════════════
-  // 🖼️ CUSTOM IMAGE SETTINGS
-  // ═══════════════════════════════════════════════════════════════
-  
-  /// Use custom images instead of drawn shapes?
-  /// Set to true when you add images to workshop/assets/
-  static const bool useCustomBird = false;
-  static const bool useCustomPipes = false;
-  
-  /// Image file names (put these files in workshop/assets/ folder)
-  static const String birdImage = 'bird.png';
-  static const String pipeImage = 'pipe.png';
-  
-  // ═══════════════════════════════════════════════════════════════
-  // 🎯 GAME DIFFICULTY
-  // ═══════════════════════════════════════════════════════════════
-  
-  /// Starting position of bird (from left edge)
-  static const double birdStartX = 100;
-  
-  /// Minimum distance from top/bottom for pipe gaps
-  /// Smaller = harder (pipes can be very high or low)
   static const double minGapDistance = 150;
+  
+  static const Color _pipeColorFallback = Color(0xFF2ECC71);
+  static Color get pipeColor =>
+      useStudentCode ? StudentCode.getPipeColor() : _pipeColorFallback;
+  
+  static Color get pipeBorderColor => pipeColor.withValues(alpha: 0.8);
+  static Color get pipeHighlightColor => 
+      Color.lerp(pipeColor, Colors.white, 0.3) ?? pipeColor;
+  static Color get pipeShadowColor =>
+      Color.lerp(pipeColor, Colors.black, 0.3) ?? pipeColor;
+  
+  
+  // ═══════════════════════════════════════════════════════════════
+  // 🌤️ SKY/BACKGROUND
+  // ═══════════════════════════════════════════════════════════════
+  
+  static const Color _skyColorTopFallback = Color(0xFF87CEEB);
+  static const Color _skyColorBottomFallback = Color(0xFF4A90E2);
+  
+  static Color get skyColorTop =>
+      useStudentCode ? StudentCode.getSkyTopColor() : _skyColorTopFallback;
+  static Color get skyColorBottom =>
+      useStudentCode ? StudentCode.getSkyBottomColor() : _skyColorBottomFallback;
+  
+  static const Color cloudColor = Colors.white;
+  static const double cloudOpacity = 0.6;
+  
+  
+  // ═══════════════════════════════════════════════════════════════
+  // 🌍 GROUND
+  // ═══════════════════════════════════════════════════════════════
+  
+  static const double groundHeight = 100;
+  static const Color groundColor = Color(0xFF8B4513);
+  static const Color grassColor = Color(0xFF228B22);
+  static const Color groundLineColor = Color(0xFF654321);
+  
+  
+  // ═══════════════════════════════════════════════════════════════
+  // 🏆 SCORING
+  // ═══════════════════════════════════════════════════════════════
+  
+  static int getPoints(int currentScore) =>
+      useStudentCode ? StudentCode.calculatePoints(currentScore) : 1;
+  
+  static String get creatorName =>
+      useStudentCode ? StudentCode.getCreatorName() : "Workshop Participant";
+  
+  
+  // ═══════════════════════════════════════════════════════════════
+  // ✨ VISUAL EFFECTS
+  // ═══════════════════════════════════════════════════════════════
+  
+  static const bool enableBirdRotation = true;
+  static const double maxRotationUp = -0.5;
+  static const double maxRotationDown = 0.8;
+  static const bool enableBirdTrail = false;
+  static const Color trailColor = Color(0xFFFFD700);
+  static const double trailOpacity = 0.3;
+  
+  
+  // ═══════════════════════════════════════════════════════════════
+  // 🔊 SOUND
+  // ═══════════════════════════════════════════════════════════════
+  
+  static const bool soundEnabled = true;
+  static const String jumpSound = 'jump.wav';
+  static const String scoreSound = 'score.wav';
+  static const String hitSound = 'hit.wav';
+  static const String swooshSound = 'swoosh.wav';
+  static const double jumpVolume = 0.5;
+  static const double scoreVolume = 0.7;
+  static const double hitVolume = 0.8;
+  static const double swooshVolume = 0.4;
+  static const double masterVolume = 1.0;
+  
+  
+  // ═══════════════════════════════════════════════════════════════
+  // 🖼️ CUSTOM IMAGES
+  // ═══════════════════════════════════════════════════════════════
+  
+  static const bool useCustomBirdImage = false;
+  static const bool useCustomPipeImage = false;
+  static const String birdImageFile = 'bird.png';
+  static const String pipeImageFile = 'pipe.png';
+  static const String birdDesign = 'detailed';
+  static const String birdEmoji = '🐤';
+  static const String pipeDesign = 'classic';
+  static const Color pipeGradientStart = Color(0xFF2ECC71);
+  static const Color pipeGradientEnd = Color(0xFF27AE60);
+  static const Color candyStripe1 = Color(0xFFFF69B4);
+  static const Color candyStripe2 = Colors.white;
 }
-
-// ═══════════════════════════════════════════════════════════════
-// 🎨 COLOR EXAMPLES - Copy and paste these!
-// ═══════════════════════════════════════════════════════════════
-//
-// Basic colors:
-//   Colors.red, Colors.blue, Colors.green, Colors.yellow
-//   Colors.purple, Colors.orange, Colors.pink, Colors.black
-//
-// Custom colors (Hex codes):
-//   Color(0xFFFF0000)  // Red
-//   Color(0xFF00FF00)  // Green
-//   Color(0xFF0000FF)  // Blue
-//   Color(0xFFFFD700)  // Gold
-//   Color(0xFFFF1493)  // Pink
-//   Color(0xFF800080)  // Purple
-//   Color(0xFF00FFFF)  // Cyan
-//
-// 💡 Find more colors at: https://htmlcolorcodes.com/

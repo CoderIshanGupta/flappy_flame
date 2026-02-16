@@ -7,11 +7,12 @@ import 'package:flappy_flame/game/pipe.dart';
 import 'package:flappy_flame/game/ground.dart';
 import 'package:flappy_flame/game/background.dart';
 import 'package:flappy_flame/services/score_service.dart';
+import 'package:flappy_flame/services/audio_service.dart';
 import 'package:flappy_flame/workshop/game_settings.dart';
 
 enum GameState { menu, playing, gameOver }
 
-class FlappyGame extends FlameGame with TapDetector, HasCollisionDetection {
+class FlappyGame extends FlameGame with TapCallbacks, HasCollisionDetection {
   late Bird bird;
   late Ground ground;
   late GameBackground background;
@@ -21,6 +22,7 @@ class FlappyGame extends FlameGame with TapDetector, HasCollisionDetection {
   int highScore = 0;
 
   final ScoreService scoreService = ScoreService();
+  final AudioService audioService = AudioService();
   Timer? pipeSpawnTimer;
 
   Function(int, int)? onScoreUpdate;
@@ -29,6 +31,8 @@ class FlappyGame extends FlameGame with TapDetector, HasCollisionDetection {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+
+    await audioService.initialize();
     highScore = await scoreService.getHighScore();
 
     background = GameBackground();
@@ -50,7 +54,7 @@ class FlappyGame extends FlameGame with TapDetector, HasCollisionDetection {
   }
 
   @override
-  void onTapDown(TapDownInfo info) {
+  void onTapDown(TapDownEvent event) {
     if (gameState == GameState.playing) {
       bird.jump();
     } else if (gameState == GameState.menu) {
@@ -71,6 +75,7 @@ class FlappyGame extends FlameGame with TapDetector, HasCollisionDetection {
       onTick: spawnPipe,
     );
 
+    audioService.playSwoosh();
     onScoreUpdate?.call(score, highScore);
   }
 
@@ -80,7 +85,10 @@ class FlappyGame extends FlameGame with TapDetector, HasCollisionDetection {
   }
 
   void incrementScore() {
-    score++;
+    // 🎓 Using student's calculatePoints function!
+    int points = WorkshopSettings.getPoints(score);
+    score += points;
+
     if (score > highScore) {
       highScore = score;
     }
@@ -88,10 +96,15 @@ class FlappyGame extends FlameGame with TapDetector, HasCollisionDetection {
   }
 
   void gameOver() {
+    if (gameState == GameState.gameOver) return;
+
     gameState = GameState.gameOver;
     bird.isAlive = false;
     pipeSpawnTimer?.stop();
+
+    audioService.playHit();
     scoreService.saveHighScore(score);
+
     onGameOverCallback?.call();
   }
 

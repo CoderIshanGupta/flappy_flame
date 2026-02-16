@@ -5,14 +5,14 @@ import 'package:flappy_flame/game/flappy_game.dart';
 import 'package:flappy_flame/workshop/game_settings.dart';
 
 class Ground extends PositionComponent
-    with HasGameRef<FlappyGame>, CollisionCallbacks {
+    with HasGameReference<FlappyGame>, CollisionCallbacks {
   double get groundHeight => WorkshopSettings.groundHeight;
   static const double scrollSpeed = 200;
 
   @override
   Future<void> onLoad() async {
-    size = Vector2(gameRef.size.x, groundHeight);
-    position = Vector2(0, gameRef.size.y - groundHeight);
+    size = Vector2(game.size.x, groundHeight);
+    position = Vector2(0, game.size.y - groundHeight);
     add(RectangleHitbox());
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flappy_flame/workshop/game_settings.dart';
 
 class GameOverlay extends StatelessWidget {
   final int score;
@@ -23,6 +24,7 @@ class GameOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        // Score display when playing
         if (isPlaying)
           Positioned(
             top: 60,
@@ -45,25 +47,76 @@ class GameOverlay extends StatelessWidget {
               ),
             ),
           ),
+
+        // Creator name badge (always visible when not playing)
         if (!isPlaying && !isGameOver)
-          Positioned.fill(
+          Positioned(
+            bottom: 120,
+            left: 0,
+            right: 0,
             child: Center(
-              child: Text(
-                'TAP TO START',
-                style: GoogleFonts.pressStart2p(
-                  fontSize: 24,
-                  color: Colors.white,
-                  shadows: [
-                    const Shadow(
-                      color: Color(0xFF2C3E50),
-                      offset: Offset(3, 3),
-                      blurRadius: 0,
-                    ),
-                  ],
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.5),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  'Created by: ${WorkshopSettings.creatorName}',
+                  style: GoogleFonts.pressStart2p(
+                    fontSize: 10,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
           ),
+
+        // Tap to start message
+        if (!isPlaying && !isGameOver)
+          Positioned.fill(
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'TAP TO START',
+                    style: GoogleFonts.pressStart2p(
+                      fontSize: 24,
+                      color: Colors.white,
+                      shadows: [
+                        const Shadow(
+                          color: Color(0xFF2C3E50),
+                          offset: Offset(3, 3),
+                          blurRadius: 0,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  // Creator name badge
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.5),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      'Created by: ${WorkshopSettings.creatorName}',
+                      style: GoogleFonts.pressStart2p(
+                        fontSize: 10,
+                        color: Colors.yellow,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+        // Game Over overlay
         if (isGameOver)
           Positioned.fill(
             child: Container(
@@ -97,7 +150,18 @@ class GameOverlay extends StatelessWidget {
                           color: const Color(0xFFFF6B6B),
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 24),
+
+                      // Creator name
+                      Text(
+                        'By: ${WorkshopSettings.creatorName}',
+                        style: GoogleFonts.pressStart2p(
+                          fontSize: 10,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -148,10 +212,14 @@ class GameOverlay extends StatelessWidget {
                           GestureDetector(
                             onTap: onBack,
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 16),
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
-                                  colors: [Color(0xFFE74C3C), Color(0xFFC0392B)],
+                                  colors: [
+                                    Color(0xFFE74C3C),
+                                    Color(0xFFC0392B)
+                                  ],
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -168,10 +236,14 @@ class GameOverlay extends StatelessWidget {
                           GestureDetector(
                             onTap: onRestart,
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 16),
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
-                                  colors: [Color(0xFF2ECC71), Color(0xFF27AE60)],
+                                  colors: [
+                                    Color(0xFF2ECC71),
+                                    Color(0xFF27AE60)
+                                  ],
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                               ),
